@@ -23,4 +23,4 @@ jobs:
     - name: Run Tests
       run: |
         cd ..
-        pytest addition.py
+        pytest code/addition.py
