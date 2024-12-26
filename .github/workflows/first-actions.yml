@@ -22,5 +22,4 @@ jobs:
 
     - name: Run Tests
       run: |
-        cd src
-        python -m pytest ./code/addition.py
+        pytest code/addition.py
