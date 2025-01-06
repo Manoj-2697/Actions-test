@@ -1,0 +1,38 @@
+name: Deploy App
+on:
+  push:
+    branches:
+      - dev
+      - test
+      - prod
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: ${{  github.ref_name }}
+      url: ${{  steps.deploy.outputs.url }}
+    steps:
+      - name: checkout code
+        uses: actions/checkout@v2
+      - name: set up python
+        uses: actions/setup-python@v4
+        with:
+          python_version: '3.12'
+      - name: Install dependencies
+        run: |
+          python -m venv env
+          source venv/bin/activate
+          pip install -r requirements.txt
+      - name: Deploy to ${{  github.ref_name }}
+        id: deploy
+        run: |
+          echo "Displaying to ${GITHUB_REF_NAME}"
+          if [[  $GITHUB_REF_NAME == 'ref/heads/dev' ]]; then
+            echo "Deploying to dev"
+          elif [[  $GITHUB_REF_NAME == 'ref/heads/test' ]]; then
+            echo "Deploying to test"
+          elif [[  $GITHUB_REF_NAME == 'ref/heads/prod' ]]; then
+            echo "Deploying to prod"
+      - name: Notify Deployment Status
+        run: |
+          echo "Deployment Completed on ${GITHUB_REF_NAME}!"
