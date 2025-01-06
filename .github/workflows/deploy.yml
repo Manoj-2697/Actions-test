@@ -33,6 +33,7 @@ jobs:
             echo "Deploying to test"
           elif [[  $GITHUB_REF_NAME == 'ref/heads/prod' ]]; then
             echo "Deploying to prod"
+          fi
       - name: Notify Deployment Status
         run: |
           echo "Deployment Completed on ${GITHUB_REF_NAME}!"
